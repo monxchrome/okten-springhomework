@@ -1,73 +1,58 @@
 package owu.springhomework.com.controllers;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Example;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
-import owu.springhomework.com.dto.SearchCriteria;
-import owu.springhomework.com.entities.Car;
-import owu.springhomework.com.repository.CarRepository;
+import owu.springhomework.com.dto.CarDto;
+import owu.springhomework.com.services.CarService;
+import owu.springhomework.com.util.View;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
 public class CarController {
 
-    private final CarRepository carRepository;
+    private final CarService carService;
 
+    @JsonView(View.External.class)
     @GetMapping("/cars")
-    public ResponseEntity<List<Car>> getCars() {
-        List<Car> cars = carRepository.findAll();
-
-        return ResponseEntity.ok(cars);
+    public ResponseEntity<List<CarDto>> getCars(@RequestParam(required = false) String producer) {
+        return ResponseEntity.ok(carService.getAll(producer));
     }
 
     @GetMapping("/cars/{id}")
-    public ResponseEntity<Car> getById(@PathVariable("id") Long id) {
-        Optional<Car> car = carRepository.findById(id);
-
-        return ResponseEntity.of(car);
+    public ResponseEntity<CarDto> getById(@PathVariable("id") Long id) {
+        return ResponseEntity.of(carService.getById(id));
     }
 
+    @JsonView(View.Internal.class)
     @GetMapping("/cars/power/{value}")
-    public ResponseEntity<List<Car>> getByPower(@PathVariable("value") int power) {
-        List<Car> cars = carRepository.findAllByPower(power);
-
-        return ResponseEntity.ok(cars);
+    public ResponseEntity<List<CarDto>> getByPower(@PathVariable("value") Integer power) {
+        return ResponseEntity.ok(carService.getByPower(power));
     }
 
+    @JsonView(View.Internal.class)
     @GetMapping("/cars/producer/{value}")
-    public ResponseEntity<List<Car>> getByProducer(@PathVariable("value") String producer) {
-        List<Car> cars = carRepository.findAllByProducer(producer);
-
-        return ResponseEntity.ok(cars);
+    public ResponseEntity<List<CarDto>> getByProducer(@PathVariable("value") String producer) {
+        return ResponseEntity.ok(carService.getByProducer(producer));
     }
 
     @PostMapping("/cars")
-    public ResponseEntity<Car> createCar(@RequestBody Car car) {
-        Car createdCar = carRepository.save(car);
-        URI uriOfCreatedCar = UriComponentsBuilder.fromPath("/cars/{id}").build(createdCar.getId());
+    public ResponseEntity<CarDto> createCar(@RequestBody @Valid CarDto car) {
+        CarDto createdCar = carService.createCar(car);
+        URI uri = UriComponentsBuilder.fromPath("/cars/{id}").build(createdCar.getId());
 
-        return ResponseEntity.created(uriOfCreatedCar).body(createdCar);
+        return ResponseEntity.created(uri).body(createdCar);
     }
 
     @DeleteMapping("/cars/{id}")
-    public ResponseEntity<Void> deleteCar(@PathVariable("id") Long id) {
-        carRepository.deleteById(id);
-
+    public ResponseEntity<?> deleteCar(@PathVariable("id") Long id) {
+        carService.deleteCar(id);
         return ResponseEntity.accepted().build();
-    }
-
-    @PostMapping("/cars/search")
-    public ResponseEntity<List<Car>> searchCars(@RequestBody SearchCriteria searchCriteria) {
-        Car probe = new Car();
-        probe.setPower(searchCriteria.getPower());
-        probe.setProducer(searchCriteria.getProducer());
-        List<Car> result = carRepository.findAll(Example.of(probe));
-        return ResponseEntity.ok(result);
     }
 }
