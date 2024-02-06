@@ -5,6 +5,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
 import owu.springhomework.com.dto.CarDto;
 import owu.springhomework.com.services.CarService;
@@ -55,4 +56,12 @@ public class CarController {
         carService.deleteCar(id);
         return ResponseEntity.accepted().build();
     }
+
+//    @PostMapping("/cars/photo/{id}")
+//    public ResponseEntity<CarDto> uploadPhoto (
+//                @PathVariable("id") Long id,
+//                @RequestParam("file") MultipartFile file ) {
+//        carService.uploadPhoto(id, file);
+//        return ResponseEntity.accepted().build();
+//    }
 }

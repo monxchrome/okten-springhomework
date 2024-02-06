@@ -19,4 +19,7 @@ public class CarDto {
 
     @JsonView(View.Internal.class)
     private Integer power;
+
+    @JsonView({View.Internal.class, View.External.class})
+    private byte[] photo;
 }

@@ -21,4 +21,7 @@ public class Car {
 
     @Min(value = 1, message = "Power can not be lower than 1")
     private Integer power;
+
+    @Lob
+    private byte[] photo;
 }
