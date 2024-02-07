@@ -1,13 +1,16 @@
 package owu.springhomework.com.controllers;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
 import owu.springhomework.com.dto.CarDto;
+import owu.springhomework.com.entities.Car;
 import owu.springhomework.com.services.CarService;
 import owu.springhomework.com.util.View;
 
@@ -43,12 +46,25 @@ public class CarController {
         return ResponseEntity.ok(carService.getByProducer(producer));
     }
 
-    @PostMapping("/cars")
-    public ResponseEntity<CarDto> createCar(@RequestBody @Valid CarDto car) {
-        CarDto createdCar = carService.createCar(car);
-        URI uri = UriComponentsBuilder.fromPath("/cars/{id}").build(createdCar.getId());
+    @SneakyThrows
+    @PostMapping("/cars/v3")
+    public ResponseEntity<Car> createCarV2(@RequestBody Car car, @RequestParam("file") MultipartFile attachment) {
+        Car createdCar;
 
-        return ResponseEntity.created(uri).body(createdCar);
+        if (attachment.isEmpty()) {
+            createdCar = carService.createCar(car);
+        } else {
+            createdCar = carService.createCar(car, attachment.getBytes());
+        }
+
+        return ResponseEntity.ok(createdCar);
+    }
+
+    @SneakyThrows
+    @PutMapping("/cars/{id}/image")
+    public ResponseEntity<Void> updateCarImage(@PathVariable("id") Long carId, @RequestParam("file") MultipartFile attachment) {
+        carService.updateCarImage(carId, attachment.getBytes());
+        return ResponseEntity.accepted().build();
     }
 
     @DeleteMapping("/cars/{id}")
@@ -56,12 +72,4 @@ public class CarController {
         carService.deleteCar(id);
         return ResponseEntity.accepted().build();
     }
-
-//    @PostMapping("/cars/photo/{id}")
-//    public ResponseEntity<CarDto> uploadPhoto (
-//                @PathVariable("id") Long id,
-//                @RequestParam("file") MultipartFile file ) {
-//        carService.uploadPhoto(id, file);
-//        return ResponseEntity.accepted().build();
-//    }
 }

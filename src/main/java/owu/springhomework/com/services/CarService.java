@@ -34,27 +34,29 @@ public class CarService {
                 .toList();
     }
 
-    public CarDto createCar(CarDto carDto) {
-        Car car = carMapper.fromDto(carDto);
-
-        Car createdCar = carRepository.save(car);
-
-        mailService.sendMail(
-                "inacheat@gmail.com",
-                "Car %s %s has been created with power: %s".formatted(
-                        car.getProducer(),
-                        car.getModel(),
-                        car.getPower()
-                ),
-                "Subject");
-
-        return carMapper.toDto(createdCar);
-    }
-
     public Optional<CarDto> getById(Long id) {
         Optional<Car> carOptional = carRepository.findById(id);
 
         return carOptional.map(carMapper::toDto);
+    }
+
+    public Car createCar(Car source) {
+        Car savedCar = carRepository.save(source);
+        mailService.sendMail(
+                "inacheat@gmail.com",
+                "New car created",
+                "Car %s was created".formatted(savedCar.getModel()));
+        return savedCar;
+    }
+
+    public Car createCar(Car source, byte[] imageBytes) {
+        source.setPhoto(imageBytes);
+        Car savedCar = carRepository.save(source);
+        mailService.sendMail(
+                "inacheat@gmail.com",
+                "New car created",
+                "Car %s was created".formatted(savedCar.getModel()));
+        return savedCar;
     }
 
     public List<CarDto> getByPower(Integer power) {
@@ -82,14 +84,16 @@ public class CarService {
         carRepository.deleteById(id);
     }
 
-//    @Transactional
-//    @SneakyThrows
-//    public void uploadPhoto(Long carId, MultipartFile file) {
-//        Car car = carRepository.findById(carId)
-//                .orElseThrow(() -> new IOException("Car with id " + carId + " not found"));
-//
-//        byte[] photoBytes = file.getBytes();
-//        car.setPhoto(photoBytes);
-//        carRepository.save(car);
-//    }
+    @Transactional
+    public void updateCarImage(Long carId, byte[] imageBytes) {
+        carRepository
+                .findById(carId)
+                .ifPresent(car -> {
+                    car.setPhoto(imageBytes);
+                    mailService.sendMail(
+                            "inacheat@gmail.com",
+                            "Car image was updated",
+                            "Car %s image was update".formatted(car.getModel()));
+                });
+    }
 }
