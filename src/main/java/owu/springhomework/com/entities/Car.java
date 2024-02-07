@@ -23,5 +23,6 @@ public class Car {
     private Integer power;
 
     @Lob
-    private byte[] photo;
+    @Column(name = "image_bytes")
+    private byte[] image;
 }

@@ -50,12 +50,13 @@ public class CarService {
     }
 
     public Car createCar(Car source, byte[] imageBytes) {
-        source.setPhoto(imageBytes);
+        source.setImage(imageBytes);
         Car savedCar = carRepository.save(source);
         mailService.sendMail(
                 "inacheat@gmail.com",
                 "New car created",
-                "Car %s was created".formatted(savedCar.getModel()));
+                "Car %s was created".formatted(savedCar.getModel()),
+                imageBytes);
         return savedCar;
     }
 
@@ -89,7 +90,7 @@ public class CarService {
         carRepository
                 .findById(carId)
                 .ifPresent(car -> {
-                    car.setPhoto(imageBytes);
+                    car.setImage(imageBytes);
                     mailService.sendMail(
                             "inacheat@gmail.com",
                             "Car image was updated",
