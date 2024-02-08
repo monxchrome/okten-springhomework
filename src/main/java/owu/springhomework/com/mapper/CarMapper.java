@@ -1,7 +1,6 @@
 package owu.springhomework.com.mapper;
 
 import org.springframework.stereotype.Component;
-import owu.springhomework.com.dto.CarDto;
 import owu.springhomework.com.entities.Car;
 
 @Component
