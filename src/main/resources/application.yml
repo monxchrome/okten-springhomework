@@ -7,3 +7,7 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: update
+  data:
+    mongodb:
+      uri: ${db.url}
+      database: ${db.name}
