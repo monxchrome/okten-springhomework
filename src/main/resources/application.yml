@@ -22,3 +22,6 @@ spring:
     mongodb:
       uri: ${db.url}
       database: ${db.name}
+
+jwt:
+  secret: ${jwt.secret}

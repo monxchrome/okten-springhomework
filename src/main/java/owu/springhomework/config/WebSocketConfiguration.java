@@ -16,6 +16,6 @@ public class WebSocketConfiguration implements WebSocketConfigurer {
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(commentHandler, "/ws/reviews");
+        registry.addHandler(commentHandler, "/ws/comments");
     }
 }

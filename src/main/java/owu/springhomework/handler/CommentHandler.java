@@ -1,5 +1,6 @@
 package owu.springhomework.handler;
 
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -20,20 +21,20 @@ public class CommentHandler extends TextWebSocketHandler {
     private final WebSocketSessionRepository webSocketSessionRepository;
 
     @Override
-    public void afterConnectionEstablished(WebSocketSession session) throws Exception {
+    public void afterConnectionEstablished(@NonNull  WebSocketSession session) throws Exception {
         log.info("New connection");
         webSocketSessionRepository.addSession(session);
     }
 
     @Override
-    protected void handleTextMessage(WebSocketSession session, TextMessage message) {
+    protected void handleTextMessage(@NonNull WebSocketSession session, TextMessage message) {
         String commentText = message.getPayload();
         log.info("Got new comment: {}", commentText);
         commentService.saveComment(1L, commentText);
     }
 
     @Override
-    public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
+    public void afterConnectionClosed(@NonNull WebSocketSession session, @NonNull CloseStatus status) throws Exception {
         log.info("Connection has been closed");
         webSocketSessionRepository.removeSession(session);
     }
