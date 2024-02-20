@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import owu.springhomework.dto.PostDto;
@@ -39,6 +40,7 @@ public class PostController {
         return ResponseEntity.ok(postService.getPostById(id));
     }
 
+    @Secured("seller")
     @PostMapping("/posts")
     public ResponseEntity<PostDto> createPost(@RequestBody @Valid PostDto postDto) {
         return ResponseEntity.ok().body(postService.createPost(postDto));
