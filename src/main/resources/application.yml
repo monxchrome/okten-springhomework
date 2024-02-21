@@ -22,6 +22,12 @@ spring:
     mongodb:
       uri: ${db.url}
       database: ${db.name}
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://accounts.google.com
+          jwk-set-uri: https://www.googleapi.com/oauth2/v3/certs
 
 jwt:
   secret: ${jwt.secret}
