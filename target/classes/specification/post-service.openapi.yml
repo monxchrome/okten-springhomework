@@ -3,7 +3,7 @@ openapi: 3.0.3
 info:
   title: Post Service API
   description: |-
-    OpenAPI specification example based on Product model
+    OpenAPI specification example based on Post model
   version: 0.0.1
   # API-first design
 
@@ -22,7 +22,7 @@ paths:
         - post
       summary: "Get all posts"
       description: "Fetch all existing posts"
-      operationId: getProducts
+      operationId: getPosts
       responses:
         '200':
           $ref: "#/components/responses/PostList"
@@ -186,7 +186,7 @@ components:
           maxLength: 64
   responses:
     Post:
-      description: Product
+      description: Post
       content:
         application/json:
           schema:
@@ -198,7 +198,7 @@ components:
           schema:
             $ref: '#/components/schemas/Comment'
     PostList:
-      description: Product list
+      description: Post list
       content:
         application/json:
           schema:
@@ -206,7 +206,7 @@ components:
             items:
               $ref: '#/components/schemas/Post'
     SignIn:
-      description: Product list
+      description: Post list
       content:
         application/json:
           schema:
@@ -214,7 +214,7 @@ components:
             items:
               $ref: '#/components/schemas/SignIn'
     Refresh:
-      description: Product list
+      description: Post list
       content:
         application/json:
           schema:

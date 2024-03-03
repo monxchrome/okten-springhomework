@@ -33,7 +33,7 @@ import java.util.Map;
 import java.util.Optional;
 import jakarta.annotation.Generated;
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-02-28T08:58:20.077542+01:00[Europe/Podgorica]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-03-03T13:10:20.263226+01:00[Europe/Podgorica]")
 @Validated
 @Tag(name = "auth", description = "the auth API")
 public interface ApiApi {
@@ -46,7 +46,7 @@ public interface ApiApi {
      * POST /api/auth/refresh : Refresh
      *
      * @param refreshDto Refresh (required)
-     * @return Product list (status code 201)
+     * @return Post list (status code 201)
      *         or Invalid request (status code 400)
      *         or Validation exception (status code 422)
      */
@@ -55,7 +55,7 @@ public interface ApiApi {
         summary = "Refresh",
         tags = { "auth" },
         responses = {
-            @ApiResponse(responseCode = "201", description = "Product list", content = {
+            @ApiResponse(responseCode = "201", description = "Post list", content = {
                 @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = RefreshDto.class)))
             }),
             @ApiResponse(responseCode = "400", description = "Invalid request"),
@@ -93,7 +93,7 @@ public interface ApiApi {
      * POST /api/auth/signin : Sign In
      *
      * @param signInDto Sign In (required)
-     * @return Product list (status code 201)
+     * @return Post list (status code 201)
      *         or Invalid request (status code 400)
      *         or Validation exception (status code 422)
      */
@@ -102,7 +102,7 @@ public interface ApiApi {
         summary = "Sign In",
         tags = { "auth" },
         responses = {
-            @ApiResponse(responseCode = "201", description = "Product list", content = {
+            @ApiResponse(responseCode = "201", description = "Post list", content = {
                 @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = SignInDto.class)))
             }),
             @ApiResponse(responseCode = "400", description = "Invalid request"),

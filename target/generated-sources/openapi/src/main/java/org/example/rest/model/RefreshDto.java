@@ -22,7 +22,7 @@ import jakarta.annotation.Generated;
  */
 
 @JsonTypeName("Refresh")
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-02-28T08:58:20.077542+01:00[Europe/Podgorica]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-03-03T13:10:20.263226+01:00[Europe/Podgorica]")
 public class RefreshDto implements Serializable {
 
   private static final long serialVersionUID = 1L;

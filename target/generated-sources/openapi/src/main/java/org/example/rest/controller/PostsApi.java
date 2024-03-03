@@ -32,7 +32,7 @@ import java.util.Map;
 import java.util.Optional;
 import jakarta.annotation.Generated;
 
-@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-02-28T08:58:20.077542+01:00[Europe/Podgorica]")
+@Generated(value = "org.openapitools.codegen.languages.SpringCodegen", date = "2024-03-03T13:10:20.263226+01:00[Europe/Podgorica]")
 @Validated
 @Tag(name = "post", description = "the post API")
 public interface PostsApi {
@@ -45,7 +45,7 @@ public interface PostsApi {
      * POST /posts : Create post
      *
      * @param postDto Post to be created (required)
-     * @return Product (status code 201)
+     * @return Post (status code 201)
      *         or Invalid request (status code 400)
      *         or Validation exception (status code 422)
      */
@@ -54,7 +54,7 @@ public interface PostsApi {
         summary = "Create post",
         tags = { "post" },
         responses = {
-            @ApiResponse(responseCode = "201", description = "Product", content = {
+            @ApiResponse(responseCode = "201", description = "Post", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = PostDto.class))
             }),
             @ApiResponse(responseCode = "400", description = "Invalid request"),
@@ -93,7 +93,7 @@ public interface PostsApi {
      * Get post by id
      *
      * @param id Post ID (required)
-     * @return Product (status code 200)
+     * @return Post (status code 200)
      *         or Invalid request (status code 400)
      */
     @Operation(
@@ -102,7 +102,7 @@ public interface PostsApi {
         description = "Get post by id",
         tags = { "post" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "Product", content = {
+            @ApiResponse(responseCode = "200", description = "Post", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = PostDto.class))
             }),
             @ApiResponse(responseCode = "400", description = "Invalid request")
@@ -138,16 +138,16 @@ public interface PostsApi {
      * GET /posts : Get all posts
      * Fetch all existing posts
      *
-     * @return Product list (status code 200)
+     * @return Post list (status code 200)
      *         or Invalid request (status code 400)
      */
     @Operation(
-        operationId = "getProducts",
+        operationId = "getPosts",
         summary = "Get all posts",
         description = "Fetch all existing posts",
         tags = { "post" },
         responses = {
-            @ApiResponse(responseCode = "200", description = "Product list", content = {
+            @ApiResponse(responseCode = "200", description = "Post list", content = {
                 @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = PostDto.class)))
             }),
             @ApiResponse(responseCode = "400", description = "Invalid request")
@@ -162,7 +162,7 @@ public interface PostsApi {
         produces = { "application/json" }
     )
     
-    default ResponseEntity<List<PostDto>> getProducts(
+    default ResponseEntity<List<PostDto>> getPosts(
         
     ) {
         getRequest().ifPresent(request -> {
